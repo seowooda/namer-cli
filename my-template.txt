@@ -1,0 +1,10 @@
+import React from 'react';
+
+// Tailwind CSS를 사용하는 나만의 템플릿!
+export default function {{Name}}() {
+  return (
+    <div className="w-full h-screen bg-gray-100 flex justify-center items-center">
+      <h1 className="text-2xl font-bold text-blue-600">{{Name}} Component</h1>
+    </div>
+  );
+}

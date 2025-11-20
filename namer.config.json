@@ -1,0 +1,5 @@
+{
+  "templates": {
+    "component": "./my-template.txt"
+  }
+}
