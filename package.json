@@ -15,9 +15,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@types/inquirer": "^9.0.9",
     "axios": "^1.13.2",
     "change-case": "^4.1.2",
+    "clipboardy": "^2.3.0",
     "commander": "^14.0.2",
     "dotenv": "^17.2.3",
     "google-translate-api-x": "^10.7.2",

@@ -1,0 +1,38 @@
+import { AiNamer } from "../services/AiNamer";
+import { Translator } from "../services/Translator";
+import { cleanText } from "../utils/textUtils";
+import { ui } from "../utils/ui";
+import * as changeCase from "change-case";
+import inquirer from "inquirer";
+
+export async function handleBranchAction(
+  korean: string,
+  aiNamer: AiNamer,
+  translator: Translator
+) {
+  console.log(`\n🌿 AI(Gemini)가 Git 브랜치 이름을 생성 중입니다...`);
+  const branchSuggestions = await aiNamer.suggestBranchNames(korean);
+  let choices: any[] = [];
+
+  if (branchSuggestions.length > 0) {
+    choices = ui.formatChoices(branchSuggestions, "🌿 ");
+  } else {
+    console.log("   (AI 호출 실패로 일반 변환을 시도합니다)");
+    const result = await translator.translate(korean);
+    const cleaned = cleanText(result.text);
+    const kebab = changeCase.paramCase(cleaned);
+    choices = [
+      { name: `🌿 feat/${kebab}`, value: `feat/${kebab}` },
+      { name: `🌿 fix/${kebab}`, value: `fix/${kebab}` },
+      { name: `🌿 chore/${kebab}`, value: `chore/${kebab}` },
+    ];
+  }
+
+  const selectedBranch = await ui.selectBranch(choices);
+  const gitCommand = `git checkout -b ${selectedBranch}`;
+
+  ui.copyToClipboard(
+    gitCommand,
+    `💡 터미널에 붙여넣기(Ctrl+V) 후 엔터를 누르세요.\n`
+  );
+}
