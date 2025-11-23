@@ -14,7 +14,7 @@ export interface NamerConfig {
 
 const DEFAULT_CONFIG: NamerConfig = {
   reactTemplate: "function",
-  styleType: "module-css",
+  styleType: "css",
   templates: {}, // 기본값은 비워둠
 };
 

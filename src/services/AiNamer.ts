@@ -2,7 +2,10 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from "dotenv";
 import { globalConfig } from "../utils/globalConfig.js";
 
-dotenv.config();
+dotenv.config({ debug: false, quiet: true });
+if (process.env.NODE_ENV !== "test") {
+  dotenv.config();
+}
 
 export class AiNamer {
   private model: any;

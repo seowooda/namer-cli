@@ -1,9 +1,0 @@
-import React from 'react';
-
-export default function {{Name}}() {
-  return (
-    <div className="w-full h-screen bg-gray-100 flex justify-center items-center">
-      <h1 className="text-2xl font-bold text-blue-600">{{Name}} Component</h1>
-    </div>
-  );
-}

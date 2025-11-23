@@ -9,12 +9,24 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js && npm run type-check",
+    "type-check": "tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "description": "AI-powered CLI tool for generating variable and branch names using Google Gemini",
+  "keywords": [
+    "cli",
+    "naming",
+    "generator",
+    "ai",
+    "gemini",
+    "variable-naming",
+    "branch-naming",
+    "developer-tools",
+    "typescript",
+    "google-translate"
+  ],
+  "author": "seowooda",
+  "license": "MIT",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@types/inquirer": "^9.0.9",
@@ -28,7 +40,10 @@
     "inquirer": "^9.3.8"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.10.1",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
