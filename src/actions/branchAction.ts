@@ -1,7 +1,7 @@
-import { AiNamer } from "../services/AiNamer";
-import { Translator } from "../services/Translator";
-import { cleanText } from "../utils/textUtils";
-import { ui } from "../utils/ui";
+import { AiNamer } from "../services/AiNamer.js";
+import { Translator } from "../services/Translator.js";
+import { cleanText } from "../utils/textUtils.js";
+import { ui } from "../utils/ui.js";
 import * as changeCase from "change-case";
 import inquirer from "inquirer";
 
@@ -20,7 +20,7 @@ export async function handleBranchAction(
     console.log("   (AI 호출 실패로 일반 변환을 시도합니다)");
     const result = await translator.translate(korean);
     const cleaned = cleanText(result.text);
-    const kebab = changeCase.paramCase(cleaned);
+    const kebab = changeCase.kebabCase(cleaned);
     choices = [
       { name: `🌿 feat/${kebab}`, value: `feat/${kebab}` },
       { name: `🌿 fix/${kebab}`, value: `fix/${kebab}` },

@@ -1,9 +1,9 @@
 import inquirer from "inquirer";
-import { AiNamer } from "../services/AiNamer";
-import { Translator } from "../services/Translator";
-import { handleBranchAction } from "./branchAction";
-import { handleVariableAction } from "./variableAction";
-import { loadConfig } from "../utils/configLoader";
+import { AiNamer } from "../services/AiNamer.js";
+import { Translator } from "../services/Translator.js";
+import { handleBranchAction } from "./branchAction.js";
+import { handleVariableAction } from "./variableAction.js";
+import { loadConfig } from "../utils/configLoader.js";
 
 export async function startInteractiveMode(
   aiNamer: AiNamer,

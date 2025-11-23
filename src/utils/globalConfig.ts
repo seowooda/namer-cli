@@ -4,9 +4,9 @@ interface GlobalConfig {
   apiKey?: string;
 }
 
-// 프로젝트 이름으로 설정 파일 생성 (예: ~/.config/namer-cli/config.json)
+// 프로젝트 이름으로 설정 파일 생성 (예: ~/.config/ai-namer-cli/config.json)
 const config = new Conf<GlobalConfig>({
-  projectName: "namer-cli",
+  projectName: "ai-namer-cli",
   encryptionKey: "namer-cli-secure-encryption-key",
 });
 

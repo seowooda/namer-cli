@@ -1,5 +1,5 @@
 import * as changeCase from "change-case";
-import { NamerConfig } from "./configLoader";
+import { NamerConfig } from "./configLoader.js";
 import fs from "fs";
 import path from "path";
 
@@ -18,7 +18,7 @@ function loadUserTemplate(templatePath: string, name: string): string | null {
       // {{name}} -> userProfile (camelCase)
       content = content.replace(/{{name}}/g, changeCase.camelCase(name));
       // {{kebab}} -> user-profile (paramCase)
-      content = content.replace(/{{kebab}}/g, changeCase.paramCase(name));
+      content = content.replace(/{{kebab}}/g, changeCase.kebabCase(name));
 
       return content;
     }
@@ -157,19 +157,42 @@ export * from './${componentName}';
   // ---------------------------------------------------------
   if (extension === ".ts" || extension === ".js") {
     const varName = changeCase.camelCase(name);
+    const isTs = extension === ".ts";
 
-    // .ts 라면 타입을 명시해주고, .js 라면 타입을 뺍니다.
-    if (extension === ".ts") {
-      return `export const ${varName} = (): boolean => {
-  return true;
+    // A. React Hook 감지 (use...)
+    if (varName.startsWith("use")) {
+      return `import { useState, useEffect } from 'react';
+
+export const ${varName} = () => {
+  const [state, setState] = useState(null);
+
+  useEffect(() => {
+    // TODO: Implement logic
+  }, []);
+
+  return { state };
 };
 `;
-    } else {
-      return `export const ${varName} = () => {
+    }
+
+    // B. Boolean 함수 감지 (is..., has..., can..., should...)
+    if (
+      varName.startsWith("is") ||
+      varName.startsWith("has") ||
+      varName.startsWith("can") ||
+      varName.startsWith("should")
+    ) {
+      return `export const ${varName} = ${isTs ? "(): boolean" : ""} => {
   return true;
 };
 `;
     }
+
+    // C. 그 외 일반 함수
+    return `export const ${varName} = () => {
+  // TODO: Implement ${varName}
+};
+`;
   }
 
   return "";

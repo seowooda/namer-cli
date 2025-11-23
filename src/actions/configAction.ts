@@ -1,6 +1,7 @@
 import { Command } from "commander";
-import { globalConfig } from "../utils/globalConfig";
+import { globalConfig } from "../utils/globalConfig.js";
 import inquirer from "inquirer";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export function registerConfigCommand(program: Command) {
   const configCommand = program
@@ -11,10 +12,21 @@ export function registerConfigCommand(program: Command) {
   configCommand
     .command("set <key> <value>")
     .description("설정 값 저장 (예: set key AIzaSy...)")
-    .action((key, value) => {
+    .action(async (key, value) => {
       if (key === "key") {
-        globalConfig.setApiKey(value);
-        console.log(`✅ API Key가 성공적으로 저장되었습니다!`);
+        console.log("⏳ API Key 유효성 검사 중...");
+        try {
+          const genAI = new GoogleGenerativeAI(value);
+          const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+          // 간단한 테스트 요청으로 키 검증
+          await model.generateContent("test");
+
+          globalConfig.setApiKey(value);
+          console.log(`✅ 유효한 API Key입니다! 성공적으로 저장되었습니다.`);
+        } catch (error) {
+          console.error(`❌ 유효하지 않은 API Key입니다. 다시 확인해주세요.`);
+          // console.error(error); // 필요 시 상세 에러 출력
+        }
       } else {
         console.error(`❌ 알 수 없는 키입니다: ${key}`);
       }

@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from "dotenv";
-import { globalConfig } from "../utils/globalConfig";
+import { globalConfig } from "../utils/globalConfig.js";
 
 dotenv.config();
 
@@ -23,7 +23,10 @@ export class AiNamer {
   }
 
   async suggestNames(description: string): Promise<string[]> {
-    if (!this.model) return [];
+    if (!this.model) {
+      this.printApiKeyGuidance();
+      return [];
+    }
 
     const prompt = `
       You are an expert software engineer specializing in Clean Code and naming conventions.
@@ -67,7 +70,10 @@ export class AiNamer {
   }
 
   async suggestBranchNames(description: string): Promise<string[]> {
-    if (!this.model) return [];
+    if (!this.model) {
+      this.printApiKeyGuidance();
+      return [];
+    }
 
     const prompt = `
       You are an expert software engineer specializing in Git workflows and version control.
@@ -110,5 +116,13 @@ export class AiNamer {
       console.error("⚠️ AI 호출 실패:", error);
       return [];
     }
+  }
+
+  private printApiKeyGuidance() {
+    console.log("\n⚠️  Gemini API Key가 설정되지 않았습니다.");
+    console.log(
+      "   👉 `namer config set key <YOUR_API_KEY>` 명령어로 키를 설정해주세요."
+    );
+    console.log("   🔗 발급 링크: https://aistudio.google.com/app/apikey\n");
   }
 }

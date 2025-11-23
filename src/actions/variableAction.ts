@@ -1,8 +1,8 @@
-import { AiNamer } from "../services/AiNamer";
-import { Translator } from "../services/Translator";
-import { cleanText } from "../utils/textUtils";
-import { generateCode } from "../utils/fileGenerator";
-import { ui } from "../utils/ui";
+import { AiNamer } from "../services/AiNamer.js";
+import { Translator } from "../services/Translator.js";
+import { cleanText } from "../utils/textUtils.js";
+import { generateCode } from "../utils/fileGenerator.js";
+import { ui } from "../utils/ui.js";
 import * as changeCase from "change-case";
 import inquirer from "inquirer";
 import fs from "fs";
@@ -44,8 +44,8 @@ export async function handleVariableAction(
         value: changeCase.snakeCase(cleaned),
       },
       {
-        name: `🥙 kebab-case: ${changeCase.paramCase(cleaned)}`,
-        value: changeCase.paramCase(cleaned),
+        name: `🥙 kebab-case: ${changeCase.kebabCase(cleaned)}`,
+        value: changeCase.kebabCase(cleaned),
       },
       {
         name: `👔 PascalCase: ${changeCase.pascalCase(cleaned)}`,

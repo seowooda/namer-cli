@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import { Translator } from "./services/Translator";
-import { AiNamer } from "./services/AiNamer";
-import { loadConfig } from "./utils/configLoader";
-import { handleBranchAction } from "./actions/branchAction";
-import { handleVariableAction } from "./actions/variableAction";
-import { startInteractiveMode } from "./actions/interactiveAction";
-import { registerConfigCommand } from "./actions/configAction";
+import { Translator } from "./services/Translator.js";
+import { AiNamer } from "./services/AiNamer.js";
+import { loadConfig } from "./utils/configLoader.js";
+import { handleBranchAction } from "./actions/branchAction.js";
+import { handleVariableAction } from "./actions/variableAction.js";
+import { startInteractiveMode } from "./actions/interactiveAction.js";
+import { registerConfigCommand } from "./actions/configAction.js";
 
 const program = new Command();
 
