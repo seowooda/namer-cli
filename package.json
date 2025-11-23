@@ -1,7 +1,10 @@
 {
-  "name": "namer-cli",
+  "name": "@namer-cli/tool",
   "version": "1.0.0",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/index.js",
   "bin": {
     "namer": "./dist/index.js"
