@@ -58,8 +58,18 @@ export async function handleVariableAction(
     ];
   }
 
+  // [NEW] 다시 추천받기 옵션 추가
+  choices.push(new inquirer.Separator());
+  choices.push({ name: "🔄 다시 추천받기", value: "RETRY" });
+
   // 3. 선택 및 복사
   const selectedName = await ui.selectVariable(choices);
+
+  if (selectedName === "RETRY") {
+    console.log("\n🔄 다른 이름으로 다시 시도합니다...");
+    return handleVariableAction(korean, aiNamer, translator, config); // 재귀 호출
+  }
+
   ui.copyToClipboard(selectedName, "");
 
   // 4. 파일 생성 로직

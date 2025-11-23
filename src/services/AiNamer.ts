@@ -1,5 +1,6 @@
-import { GoogleGenerativeAI } from "@google/generative-ai"; // 👈 표준 SDK
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from "dotenv";
+import { globalConfig } from "../utils/globalConfig";
 
 dotenv.config();
 
@@ -7,11 +8,16 @@ export class AiNamer {
   private model: any;
 
   constructor() {
-    const apiKey = process.env.GEMINI_API_KEY;
+    // 1. .env 파일 확인
+    let apiKey = process.env.GEMINI_API_KEY;
+
+    // 2. 없으면 글로벌 설정 확인
+    if (!apiKey) {
+      apiKey = globalConfig.getApiKey();
+    }
 
     if (apiKey) {
       const genAI = new GoogleGenerativeAI(apiKey);
-      // ✅ 모델명 변경: gemini-2.0-flash (현재 사용 가능한 모델)
       this.model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
     }
   }

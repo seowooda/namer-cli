@@ -4,7 +4,7 @@ import path from "path";
 export interface NamerConfig {
   reactTemplate: "function" | "arrow";
   styleType: "css" | "module-css" | "styled-components";
-  // 🔥 [추가] 템플릿 경로를 담는 객체
+  //템플릿 경로를 담는 객체
   templates?: {
     component?: string; // 컴포넌트용 템플릿 경로 (예: ./templates/component.txt)
     style?: string; // 스타일용 템플릿 경로

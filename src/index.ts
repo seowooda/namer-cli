@@ -5,17 +5,28 @@ import { AiNamer } from "./services/AiNamer";
 import { loadConfig } from "./utils/configLoader";
 import { handleBranchAction } from "./actions/branchAction";
 import { handleVariableAction } from "./actions/variableAction";
+import { startInteractiveMode } from "./actions/interactiveAction";
+import { registerConfigCommand } from "./actions/configAction";
 
 const program = new Command();
+
+registerConfigCommand(program);
+
 const translator = new Translator();
 const aiNamer = new AiNamer();
 
 program
   .version("1.0.0")
-  .argument("<korean>", "번역할 한글 문장")
+  .argument("[korean]", "번역할 한글 문장 (생략 시 대화형 모드 진입)")
   .option("-b, --branch", "Git 브랜치 이름 추천 모드")
   .action(async (korean, options) => {
     try {
+      // 인자가 없으면 대화형 모드 실행
+      if (!korean) {
+        await startInteractiveMode(aiNamer, translator);
+        return;
+      }
+
       const config = loadConfig();
 
       // 1. Git 브랜치 모드

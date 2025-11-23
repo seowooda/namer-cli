@@ -28,7 +28,17 @@ export async function handleBranchAction(
     ];
   }
 
+  //다시 추천받기 옵션
+  choices.push(new inquirer.Separator());
+  choices.push({ name: "🔄 다시 추천받기", value: "RETRY" });
+
   const selectedBranch = await ui.selectBranch(choices);
+
+  if (selectedBranch === "RETRY") {
+    console.log("\n🔄 다른 이름으로 다시 시도합니다...");
+    return handleBranchAction(korean, aiNamer, translator); // 재귀 호출
+  }
+
   const gitCommand = `git checkout -b ${selectedBranch}`;
 
   ui.copyToClipboard(
