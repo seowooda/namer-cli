@@ -79,9 +79,41 @@ namer
   "reactTemplate": "arrow", // "function" | "arrow"
   "styleType": "module-css", // "css" | "module-css" | "styled-components"
   "templates": {
-    "component": "./templates/component.txt" // 커스텀 템플릿 경로
+    "component": "./templates/component.txt", // 컴포넌트 템플릿 경로
+    "style": "./templates/style.txt", // 스타일 템플릿 경로
+    "index": "./templates/index.txt" // index.ts 템플릿 경로
   }
 }
+```
+
+### 🎨 커스텀 템플릿 만들기 (Custom Templates)
+
+자신만의 코드 스타일이 있다면 템플릿 파일을 만들어 사용할 수 있습니다.
+템플릿 파일 내에서 아래의 **치환 변수**들을 사용할 수 있습니다.
+
+| 변수        | 설명                           | 예시 (입력: "user profile") |
+| :---------- | :----------------------------- | :-------------------------- |
+| `{{Name}}`  | PascalCase (클래스/컴포넌트명) | `UserProfile`               |
+| `{{name}}`  | camelCase (변수/함수명)        | `userProfile`               |
+| `{{kebab}}` | kebab-case (파일/CSS클래스명)  | `user-profile`              |
+
+**예시 (`templates/component.txt`):**
+
+```tsx
+import React from 'react';
+import styles from './{{Name}}.module.css';
+
+interface {{Name}}Props {
+  // props definition
+}
+
+export const {{Name}} = (props: {{Name}}Props) => {
+  return (
+    <div className={styles.container}>
+      {/* {{Name}} Component */}
+    </div>
+  );
+};
 ```
 
 ## 🛠️ 개발 및 기여 (Development)
