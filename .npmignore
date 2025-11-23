@@ -1,0 +1,29 @@
+# Source code (we publish dist/)
+src/
+
+# Configuration files
+tsconfig.json
+jest.config.mjs
+.eslintrc.js
+.prettierrc
+
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# GitHub Actions
+.github/
+
+# Editor settings
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Tests
+coverage/
+__tests__/
+*.test.ts
