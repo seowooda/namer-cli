@@ -7,9 +7,11 @@ import { handleBranchAction } from './actions/branchAction.js';
 import { handleVariableAction } from './actions/variableAction.js';
 import { startInteractiveMode } from './actions/interactiveAction.js';
 import { registerConfigCommand } from './actions/configAction.js';
+import { registerInitCommand } from './actions/initAction.js';
 
 const program = new Command();
 
+registerInitCommand(program);
 registerConfigCommand(program);
 
 const translator = new Translator();

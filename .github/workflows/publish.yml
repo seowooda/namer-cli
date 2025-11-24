@@ -1,11 +1,42 @@
 name: Publish to NPM
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: ['main']
 
 jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      is_new_version: ${{ steps.check.outputs.is_new_version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 
+
+      - name: Check if version changed
+        id: check
+        run: |
+          # package.json에서 버전 추출
+          NEW_VERSION=$(jq -r .version package.json)
+
+          # 이전 커밋의 package.json에서 버전 추출 (없을 수도 있으니 예외처리)
+          OLD_VERSION=$(git show HEAD^:package.json 2>/dev/null | jq -r .version || echo "0.0.0")
+
+          echo "Old Version: $OLD_VERSION"
+          echo "New Version: $NEW_VERSION"
+
+          if [ "$NEW_VERSION" != "$OLD_VERSION" ]; then
+            echo "Version changed! Ready to publish."
+            echo "is_new_version=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version not changed. Skipping publish."
+            echo "is_new_version=false" >> $GITHUB_OUTPUT
+          fi
+
   publish:
+    needs: check-version
+    if: needs.check-version.outputs.is_new_version == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
