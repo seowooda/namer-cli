@@ -18,7 +18,7 @@ Google Gemini AI를 활용하여 문맥에 맞는 최적의 이름을 추천해�
 ## 📦 설치 (Installation)
 
 ```bash
-npm install -g namer-cli
+npm install -g @namer-cli/tool
 ```
 
 ## 🔑 초기 설정 (Setup)
