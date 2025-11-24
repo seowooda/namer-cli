@@ -1,14 +1,14 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import dotenv from "dotenv";
-import { globalConfig } from "../utils/globalConfig.js";
+import { GoogleGenerativeAI, GenerativeModel } from '@google/generative-ai';
+import dotenv from 'dotenv';
+import { globalConfig } from '../utils/globalConfig.js';
 
 dotenv.config({ debug: false, quiet: true });
-if (process.env.NODE_ENV !== "test") {
+if (process.env.NODE_ENV !== 'test') {
   dotenv.config();
 }
 
 export class AiNamer {
-  private model: any;
+  private model: GenerativeModel | undefined;
 
   constructor() {
     // 1. .env 파일 확인
@@ -21,7 +21,7 @@ export class AiNamer {
 
     if (apiKey) {
       const genAI = new GoogleGenerativeAI(apiKey);
-      this.model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+      this.model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
     }
   }
 
@@ -62,11 +62,11 @@ export class AiNamer {
       const response = result.response.text();
 
       return response
-        .split(",")
+        .split(',')
         .map((s: string) => s.trim())
         .filter((s: string) => s.length > 0);
     } catch (error) {
-      console.error("⚠️ AI 호출 실패:", error);
+      console.error('⚠️ AI 호출 실패:', error);
       // 실패 시 빈 배열 반환 -> 일반 번역기로 넘어감
       return [];
     }
@@ -112,20 +112,18 @@ export class AiNamer {
       const response = result.response.text();
 
       return response
-        .split(",")
+        .split(',')
         .map((s: string) => s.trim())
         .filter((s: string) => s.length > 0);
     } catch (error) {
-      console.error("⚠️ AI 호출 실패:", error);
+      console.error('⚠️ AI 호출 실패:', error);
       return [];
     }
   }
 
   private printApiKeyGuidance() {
-    console.log("\n⚠️  Gemini API Key가 설정되지 않았습니다.");
-    console.log(
-      "   👉 `namer config set key <YOUR_API_KEY>` 명령어로 키를 설정해주세요."
-    );
-    console.log("   🔗 발급 링크: https://aistudio.google.com/app/apikey\n");
+    console.log('\n⚠️  Gemini API Key가 설정되지 않았습니다.');
+    console.log('   👉 `namer config set key <YOUR_API_KEY>` 명령어로 키를 설정해주세요.');
+    console.log('   🔗 발급 링크: https://aistudio.google.com/app/apikey\n');
   }
 }

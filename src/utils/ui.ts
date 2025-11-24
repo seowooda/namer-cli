@@ -1,9 +1,9 @@
-import inquirer from "inquirer";
-import clipboardy from "clipboardy";
+import inquirer from 'inquirer';
+import clipboardy from 'clipboardy';
 
 export const ui = {
   // AI 추천 결과나 번역 결과를 선택지로 변환
-  formatChoices(items: string[], prefix: string = "") {
+  formatChoices(items: string[], prefix: string = '') {
     return items.map((item) => ({
       name: `${prefix}${item}`,
       value: item,
@@ -11,12 +11,12 @@ export const ui = {
   },
 
   // 브랜치 선택 프롬프트
-  async selectBranch(choices: any[]) {
+  async selectBranch(choices: (inquirer.Separator | { name: string; value: string })[]) {
     const answer = await inquirer.prompt([
       {
-        type: "list",
-        name: "selected",
-        message: "🌿 생성할 브랜치 이름을 선택하세요:",
+        type: 'list',
+        name: 'selected',
+        message: '🌿 생성할 브랜치 이름을 선택하세요:',
         choices: choices,
       },
     ]);
@@ -24,12 +24,12 @@ export const ui = {
   },
 
   // 변수명 선택 프롬프트
-  async selectVariable(choices: any[]) {
+  async selectVariable(choices: (inquirer.Separator | { name: string; value: string })[]) {
     const answer = await inquirer.prompt([
       {
-        type: "list",
-        name: "selected",
-        message: "✨ 마음에 드는 변수명을 선택하세요:",
+        type: 'list',
+        name: 'selected',
+        message: '✨ 마음에 드는 변수명을 선택하세요:',
         choices: choices,
       },
     ]);
@@ -40,13 +40,13 @@ export const ui = {
   async selectCreateType() {
     const answer = await inquirer.prompt([
       {
-        type: "list",
-        name: "createType",
-        message: "어떤 형태로 생성하시겠습니까?",
+        type: 'list',
+        name: 'createType',
+        message: '어떤 형태로 생성하시겠습니까?',
         choices: [
-          { name: "📋 복사만 하고 종료", value: "copy_only" },
-          { name: "📄 단일 파일 생성", value: "single" },
-          { name: "📦 컴포넌트 번들 생성", value: "bundle" },
+          { name: '📋 복사만 하고 종료', value: 'copy_only' },
+          { name: '📄 단일 파일 생성', value: 'single' },
+          { name: '📦 컴포넌트 번들 생성', value: 'bundle' },
         ],
       },
     ]);
@@ -57,18 +57,18 @@ export const ui = {
   async askSingleFileOpts() {
     return inquirer.prompt([
       {
-        type: "list",
-        name: "extension",
-        message: "확장자:",
-        choices: [".tsx", ".ts", ".jsx", ".js", ".css", "직접입력"],
+        type: 'list',
+        name: 'extension',
+        message: '확장자:',
+        choices: ['.tsx', '.ts', '.jsx', '.js', '.css', '직접입력'],
       },
       {
-        type: "input",
-        name: "customExt",
-        message: "입력:",
-        when: (a) => a.extension === "직접입력",
+        type: 'input',
+        name: 'customExt',
+        message: '입력:',
+        when: (a) => a.extension === '직접입력',
       },
-      { type: "input", name: "folder", message: "폴더:", default: "." },
+      { type: 'input', name: 'folder', message: '폴더:', default: '.' },
     ]);
   },
 
@@ -76,10 +76,10 @@ export const ui = {
   async askBundleOpts() {
     return inquirer.prompt([
       {
-        type: "input",
-        name: "folder",
-        message: "위치할 상위 폴더:",
-        default: ".",
+        type: 'input',
+        name: 'folder',
+        message: '위치할 상위 폴더:',
+        default: '.',
       },
     ]);
   },

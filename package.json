@@ -13,7 +13,11 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js && npm run type-check",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "prepare": "husky"
   },
   "description": "AI-powered CLI tool for generating variable and branch names using Google Gemini",
   "keywords": [
@@ -43,11 +47,18 @@
     "inquirer": "^9.3.8"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.10.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^16.5.0",
+    "husky": "^9.1.7",
     "jest": "^30.2.0",
+    "prettier": "^3.6.2",
     "ts-jest": "^29.4.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.47.0"
   }
 }

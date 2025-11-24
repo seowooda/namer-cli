@@ -1,7 +1,7 @@
-import * as changeCase from "change-case";
-import { NamerConfig } from "./configLoader.js";
-import fs from "fs";
-import path from "path";
+import * as changeCase from 'change-case';
+import { NamerConfig } from './configLoader.js';
+import fs from 'fs';
+import path from 'path';
 
 // 🛠️ 템플릿 파일을 읽어서 구멍을 채워주는 도우미 함수
 function loadUserTemplate(templatePath: string, name: string): string | null {
@@ -10,7 +10,7 @@ function loadUserTemplate(templatePath: string, name: string): string | null {
     const fullPath = path.resolve(process.cwd(), templatePath);
 
     if (fs.existsSync(fullPath)) {
-      let content = fs.readFileSync(fullPath, "utf-8");
+      let content = fs.readFileSync(fullPath, 'utf-8');
 
       // 🔥 치환 로직 (사용자가 템플릿에 적은 변수를 실제 값으로 변경)
       // {{Name}} -> UserProfile (PascalCase)
@@ -22,24 +22,19 @@ function loadUserTemplate(templatePath: string, name: string): string | null {
 
       return content;
     }
-  } catch (e) {
-    // 파일 읽기 실패 시 조용히 무시하고 기본 로직으로 넘어감 (안전장치)
+  } catch {
     return null;
   }
   return null;
 }
 
-export function generateCode(
-  name: string,
-  extension: string,
-  config: NamerConfig
-): string {
+export function generateCode(name: string, extension: string, config: NamerConfig): string {
   const componentName = changeCase.pascalCase(name);
 
   // ---------------------------------------------------------
   // 1️⃣ React 컴포넌트 (.tsx, .jsx)
   // ---------------------------------------------------------
-  if (extension === ".tsx" || extension === ".jsx") {
+  if (extension === '.tsx' || extension === '.jsx') {
     // 🚀 [Custom] 사용자 템플릿이 설정되어 있으면 그걸 먼저 사용
     if (config.templates?.component) {
       const customContent = loadUserTemplate(config.templates.component, name);
@@ -49,9 +44,9 @@ export function generateCode(
     // (사용자 템플릿이 없으면 내장 로직 실행)
 
     // A. Styled-components 사용 시
-    if (config.styleType === "styled-components") {
+    if (config.styleType === 'styled-components') {
       const componentDecl =
-        config.reactTemplate === "arrow"
+        config.reactTemplate === 'arrow'
           ? `const ${componentName} = () => {
   return (
     <Container>
@@ -82,16 +77,14 @@ ${componentDecl}
 
     // B. CSS Modules 또는 일반 CSS 사용 시
     const styleImport =
-      config.styleType === "module-css"
+      config.styleType === 'module-css'
         ? `import styles from './${componentName}.module.css';`
         : `import './${componentName}.css';`;
 
     const classNameUsage =
-      config.styleType === "module-css"
-        ? "className={styles.container}"
-        : 'className="container"';
+      config.styleType === 'module-css' ? 'className={styles.container}' : 'className="container"';
 
-    if (config.reactTemplate === "arrow") {
+    if (config.reactTemplate === 'arrow') {
       return `import React from 'react';
 ${styleImport}
 
@@ -123,7 +116,7 @@ export default function ${componentName}() {
   // ---------------------------------------------------------
   // 2️⃣ 스타일 시트 (.css, .module.css, .scss)
   // ---------------------------------------------------------
-  if (extension.includes("css") || extension.includes("scss")) {
+  if (extension.includes('css') || extension.includes('scss')) {
     // 🚀 [Custom] 스타일용 커스텀 템플릿 확인
     if (config.templates?.style) {
       const customContent = loadUserTemplate(config.templates.style, name);
@@ -140,7 +133,7 @@ export default function ${componentName}() {
   // ---------------------------------------------------------
   // 3️⃣ Index 파일 (re-export)
   // ---------------------------------------------------------
-  if (extension === "index") {
+  if (extension === 'index') {
     // 🚀 [Custom] index용 커스텀 템플릿 확인
     if (config.templates?.index) {
       const customContent = loadUserTemplate(config.templates.index, name);
@@ -155,12 +148,12 @@ export * from './${componentName}';
   // ---------------------------------------------------------
   // 4️⃣ 일반 로직 (.ts, .js)
   // ---------------------------------------------------------
-  if (extension === ".ts" || extension === ".js") {
+  if (extension === '.ts' || extension === '.js') {
     const varName = changeCase.camelCase(name);
-    const isTs = extension === ".ts";
+    const isTs = extension === '.ts';
 
     // A. React Hook 감지 (use...)
-    if (varName.startsWith("use")) {
+    if (varName.startsWith('use')) {
       return `import { useState, useEffect } from 'react';
 
 export const ${varName} = () => {
@@ -177,12 +170,12 @@ export const ${varName} = () => {
 
     // B. Boolean 함수 감지 (is..., has..., can..., should...)
     if (
-      varName.startsWith("is") ||
-      varName.startsWith("has") ||
-      varName.startsWith("can") ||
-      varName.startsWith("should")
+      varName.startsWith('is') ||
+      varName.startsWith('has') ||
+      varName.startsWith('can') ||
+      varName.startsWith('should')
     ) {
-      return `export const ${varName} = ${isTs ? "(): boolean" : ""} => {
+      return `export const ${varName} = ${isTs ? '(): boolean' : ''} => {
   return true;
 };
 `;
@@ -195,5 +188,5 @@ export const ${varName} = () => {
 `;
   }
 
-  return "";
+  return '';
 }
