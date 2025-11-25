@@ -3,7 +3,7 @@
 **AI 기반 변수명 & 브랜치명 추천 도구**
 
 `namer-cli`는 개발자가 변수명이나 Git 브랜치 이름을 고민하는 시간을 줄여주는 CLI 도구입니다.
-Google Gemini AI를 활용하여 문맥에 맞는 최적의 이름을 추천해주며, React 컴포넌트나 Hook 파일 생성까지 도와줍니다.
+단순 번역을 넘어, Google Gemini AI를 활용하여 문맥에 맞는 변수명, 함수명, 브랜치명을 추천하고, 프로젝트 컨벤션에 맞는 코드까지 즉시 생성해줍니다.
 
 ## ✨ 주요 기능
 
@@ -25,6 +25,21 @@ npm install -g @namer-cli/tool
 
 이 도구는 Google Gemini API를 사용합니다. 원활한 사용을 위해 API Key 설정이 필요합니다.
 (키가 없으면 무료 구글 번역기를 통한 단순 변환만 지원됩니다.)
+
+### 1. 간편 설정 (추천)
+
+명령어 한 번으로 API Key 등록과 프로젝트 스타일 설정을 마법사 형태로 진행할 수 있습니다.
+
+```bash
+namer init
+```
+
+- **API Key 등록:** 입력 즉시 유효성을 검사하고 안전하게 저장합니다.
+- **스타일 설정:** React 컴포넌트 스타일(Styled-components 등)과 템플릿 방식을 선택하여 `namer.config.json`을 자동 생성합니다.
+
+### 2. 수동 설정
+
+API Key만 따로 등록하고 싶다면 아래 명령어를 사용하세요.
 
 1. **API Key 발급:** [Google AI Studio](https://aistudio.google.com/app/apikey)에서 무료로 발급받으세요.
 2. **키 등록:**
