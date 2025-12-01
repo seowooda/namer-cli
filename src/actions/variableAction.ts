@@ -32,6 +32,16 @@ export async function handleVariableAction(
   if (choices.length === 0 || choices.length === 1) {
     // Separator만 있는 경우 대비
     const result = await translator.translate(korean);
+
+    if (!result) {
+      console.error(
+        '\n❌ [Critical Error] 모든 변환 서비스(AI, Google Translate)가 응답하지 않습니다.'
+      );
+      console.error('   - 네트워크 연결을 확인해주세요.');
+      console.error('   - 잠시 후 다시 시도해주세요.');
+      process.exit(1);
+    }
+
     const cleaned = cleanText(result.text);
 
     choices = [

@@ -44,7 +44,8 @@
     "conf": "^15.0.2",
     "dotenv": "^17.2.3",
     "google-translate-api-x": "^10.7.2",
-    "inquirer": "^9.3.8"
+    "inquirer": "^9.3.8",
+    "node-machine-id": "^1.1.12"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

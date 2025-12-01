@@ -15,6 +15,16 @@ export async function handleBranchAction(korean: string, aiNamer: AiNamer, trans
   } else {
     console.log('   (AI 호출 실패로 일반 변환을 시도합니다)');
     const result = await translator.translate(korean);
+
+    if (!result) {
+      console.error(
+        '\n❌ [Critical Error] 모든 변환 서비스(AI, Google Translate)가 응답하지 않습니다.'
+      );
+      console.error('   - 네트워크 연결을 확인해주세요.');
+      console.error('   - 잠시 후 다시 시도해주세요.');
+      process.exit(1);
+    }
+
     const cleaned = cleanText(result.text);
     const kebab = changeCase.kebabCase(cleaned);
     choices = [

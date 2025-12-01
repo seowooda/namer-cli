@@ -37,16 +37,11 @@ describe('Translator Service', () => {
     expect(result).toEqual({ text: 'Hello', source: 'Google' });
   });
 
-  test('번역 실패 시 원본 텍스트를 반환해야 한다 (Fallback)', async () => {
+  test('번역 실패 시 null을 반환해야 한다 (Graceful Fail)', async () => {
     mockTranslate.mockRejectedValue(new Error('Network Error'));
-
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     const result = await translator.translate('안녕');
 
-    expect(result).toEqual({ text: '안녕', source: 'Google' });
-    expect(consoleSpy).toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
+    expect(result).toBeNull();
   });
 });
